@@ -13,7 +13,7 @@ interface ProductCardProps {
   onViewDetails?: (product: Product) => void
 }
 
-export function ProductCard({ product, onAddToCart, onViewDetails }: ProductCardProps) {
+export const ProductCard = ({ product, onAddToCart, onViewDetails }: ProductCardProps) => {
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg">
       <CardHeader className="p-0">

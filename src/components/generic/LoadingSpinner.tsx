@@ -1,13 +1,13 @@
 'use client'
 
-import { cn } from '@/utils'
+import { mergeClassNames } from '@/utils'
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg'
   className?: string
 }
 
-export function LoadingSpinner({ size = 'md', className }: LoadingSpinnerProps) {
+export const LoadingSpinner = ({ size = 'md', className }: LoadingSpinnerProps) => {
   const sizeClasses = {
     sm: 'h-4 w-4',
     md: 'h-6 w-6',
@@ -16,7 +16,7 @@ export function LoadingSpinner({ size = 'md', className }: LoadingSpinnerProps) 
 
   return (
     <div
-      className={cn(
+      className={mergeClassNames(
         'animate-spin rounded-full border-2 border-muted border-t-primary',
         sizeClasses[size],
         className

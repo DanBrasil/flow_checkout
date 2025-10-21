@@ -19,6 +19,11 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "error",
+      "func-style": ["error", "expression"],
+      "@typescript-eslint/explicit-function-return-type": ["error", { allowExpressions: true }],
+    },
   },
 ];
 

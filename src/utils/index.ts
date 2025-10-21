@@ -1,8 +1,8 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+export const mergeClassNames = (...classList: ClassValue[]): string => {
+  return twMerge(clsx(classList))
 }
 
 export function formatCurrency(value: number, currency = 'BRL'): string {
@@ -30,35 +30,36 @@ export function formatDateTime(date: Date, locale = 'pt-BR'): string {
   }).format(date)
 }
 
-export function debounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeout)
-    timeout = setTimeout(() => func(...args), wait)
+export const debounce = <TArgs extends unknown[]>(
+  callback: (...args: TArgs) => void,
+  waitMs: number
+): ((...args: TArgs) => void) => {
+  let timeout: ReturnType<typeof setTimeout> | undefined
+  return (...args: TArgs) => {
+    if (timeout) clearTimeout(timeout)
+    timeout = setTimeout(() => callback(...args), waitMs)
   }
 }
 
-export function throttle<T extends (...args: any[]) => any>(
-  func: T,
-  limit: number
-): (...args: Parameters<T>) => void {
-  let inThrottle: boolean
-  return (...args: Parameters<T>) => {
-    if (!inThrottle) {
-      func(...args)
-      inThrottle = true
-      setTimeout(() => (inThrottle = false), limit)
-    }
+export const throttle = <TArgs extends unknown[]>(
+  callback: (...args: TArgs) => void,
+  intervalMs: number
+): ((...args: TArgs) => void) => {
+  let locked = false
+  return (...args: TArgs) => {
+    if (locked) return
+    callback(...args)
+    locked = true
+    setTimeout(() => {
+      locked = false
+    }, intervalMs)
   }
 }
 
-export function generateId(): string {
-  return Math.random().toString(36).substr(2, 9)
+export const generateId = (): string => {
+  return Math.random().toString(36).slice(2, 11)
 }
 
-export function sleep(ms: number): Promise<void> {
+export const sleep = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
