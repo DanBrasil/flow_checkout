@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react'
 import { Product } from '@/interfaces'
 import { apiService } from '@/services'
 import { ProductCard, Header, Footer, LoadingSpinner } from '@/components/generic'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ShoppingCart, Star, TrendingUp } from 'lucide-react'
 
-export const HomePage = () => {
+const HomePage = () => {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
@@ -118,7 +118,7 @@ export const HomePage = () => {
             {!loading && filteredProducts.length === 0 && (
               <div className="text-center py-12">
                 <p className="text-muted-foreground text-lg">
-                  Nenhum produto encontrado para "{searchQuery}"
+                  Nenhum produto encontrado para &quot;{searchQuery}&quot;
                 </p>
                 <Button 
                   variant="outline" 
@@ -137,3 +137,5 @@ export const HomePage = () => {
     </div>
   )
 }
+
+export default HomePage

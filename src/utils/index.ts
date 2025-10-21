@@ -5,30 +5,27 @@ export const mergeClassNames = (...classList: ClassValue[]): string => {
   return twMerge(clsx(classList))
 }
 
-export function formatCurrency(value: number, currency = 'BRL'): string {
-  return new Intl.NumberFormat('pt-BR', {
+export const formatCurrency = (value: number, currency = 'BRL'): string => 
+  new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency,
   }).format(value)
-}
 
-export function formatDate(date: Date, locale = 'pt-BR'): string {
-  return new Intl.DateTimeFormat(locale, {
+export const formatDate = (date: Date, locale = 'pt-BR'): string => 
+  new Intl.DateTimeFormat(locale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
   }).format(date)
-}
 
-export function formatDateTime(date: Date, locale = 'pt-BR'): string {
-  return new Intl.DateTimeFormat(locale, {
+export const formatDateTime = (date: Date, locale = 'pt-BR'): string => 
+  new Intl.DateTimeFormat(locale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
   }).format(date)
-}
 
 export const debounce = <TArgs extends unknown[]>(
   callback: (...args: TArgs) => void,

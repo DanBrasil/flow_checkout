@@ -1,7 +1,5 @@
 'use client'
 
-import { Card, CardContent } from '@/components/ui/card'
-
 export const Footer = () => {
   return (
     <footer className="border-t bg-muted/50">

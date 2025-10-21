@@ -1,5 +1,4 @@
 import { User, Product, Cart, CartItem } from '@/interfaces'
-import { generateId } from '@/utils'
 
 export const mockUsers: User[] = [
   {

@@ -50,10 +50,10 @@ const config: Config = {
       },
       spacing: tokens.spacing,
       borderRadius: {
+        ...tokens.borderRadius,
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-        ...tokens.borderRadius,
       },
       boxShadow: tokens.shadows,
       fontFamily: tokens.typography.fontFamily,
