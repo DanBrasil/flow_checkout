@@ -3,13 +3,19 @@
 import { useState, useEffect } from 'react'
 import { Product } from '@/interfaces'
 import { apiService } from '@/services'
-import { ProductCard, Header, Footer, LoadingSpinner } from '@/components/generic'
+import { ProductCard, Footer, LoadingSpinner } from '@/components/generic'
+import { SimpleHeader } from '@/components/generic/SimpleHeader'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ShoppingCart, Star, TrendingUp } from 'lucide-react'
 
-const HomePage = () => {
+interface HomePageProps {
+  userName?: string
+  onLogout?: () => void
+}
+
+const HomePage = ({ userName, onLogout }: HomePageProps) => {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
@@ -58,11 +64,12 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header 
+      <SimpleHeader 
         cartItemsCount={cartItemsCount}
         onSearch={handleSearch}
         onCartClick={() => console.log('Carrinho clicado')}
-        onUserClick={() => console.log('Usuário clicado')}
+        onLogout={onLogout}
+        userName={userName}
       />
       
       <main className="container mx-auto px-4 py-8">

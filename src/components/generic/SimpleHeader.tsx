@@ -4,20 +4,22 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ShoppingCart, Search, LogOut } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-import { useAuth } from '@/contexts/AuthContext'
 
-interface HeaderProps {
+interface SimpleHeaderProps {
   cartItemsCount?: number
   onCartClick?: () => void
   onSearch?: (query: string) => void
+  onLogout?: () => void
+  userName?: string
 }
 
-export const Header = ({ 
+export const SimpleHeader = ({ 
   cartItemsCount = 0, 
   onCartClick, 
-  onSearch 
-}: HeaderProps) => {
-  const { user, logout } = useAuth()
+  onSearch,
+  onLogout,
+  userName
+}: SimpleHeaderProps) => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
@@ -40,15 +42,15 @@ export const Header = ({
           </div>
           
           <div className="flex items-center space-x-2">
-            {user && (
+            {userName && (
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-600">
-                  Olá, {user.name}
+                  Olá, {userName}
                 </span>
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={logout}
+                  onClick={onLogout}
                   className="text-gray-600 hover:text-red-600"
                 >
                   <LogOut className="h-4 w-4 mr-1" />
