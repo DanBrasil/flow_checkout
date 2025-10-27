@@ -1,42 +1,55 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import HomePage from '@/pages/HomePage'
-import { AuthForm } from '@/components/auth/AuthForm'
-import { Loader2 } from 'lucide-react'
+import { useState, useEffect } from "react";
+import HomePage from "@/pages/HomePage";
+import CardPage from "@/pages/card";
+import ProductDetailsPage from "@/pages/product_details";
+import { AuthForm } from "@/components/auth/AuthForm";
+import { Loader2 } from "lucide-react";
+import { Product } from "@/interfaces";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
+
+type Page = "home" | "card" | "product";
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [user, setUser] = useState<{ name: string } | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [currentPage, setCurrentPage] = useState<Page>("home");
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null
+  );
+  const [cartItems, setCardItems] = useState<Product[]>([]);
 
   useEffect(() => {
-    // Verificar se há um usuário salvo no localStorage
-    const savedUser = localStorage.getItem('user')
+    const savedUser = localStorage.getItem("user");
     if (savedUser) {
-      const userData = JSON.parse(savedUser)
-      setUser(userData)
-      setIsAuthenticated(true)
+      setUser(JSON.parse(savedUser));
+      setIsAuthenticated(true);
     }
-    setIsLoading(false)
-  }, [])
+    setIsLoading(false);
+  }, []);
 
   const handleAuthSuccess = () => {
-    const savedUser = localStorage.getItem('user')
-    if (savedUser) {
-      const userData = JSON.parse(savedUser)
-      setUser(userData)
-    }
-    setIsAuthenticated(true)
-  }
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) setUser(JSON.parse(savedUser));
+    setIsAuthenticated(true);
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem('user')
-    setUser(null)
-    setIsAuthenticated(false)
-  }
+    localStorage.removeItem("user");
+    setUser(null);
+    setIsAuthenticated(false);
+    setCurrentPage("home");
+  };
+
+  const goToCard = () => setCurrentPage("card");
+  const goToHome = () => setCurrentPage("home");
+  const goToProduct = (id: string) => {
+    setSelectedProductId(id);
+    setCurrentPage("product");
+  };
 
   if (isLoading) {
     return (
@@ -46,12 +59,37 @@ export default function Home() {
           <p className="text-gray-600">Carregando...</p>
         </div>
       </div>
-    )
+    );
   }
 
-  if (!isAuthenticated) {
-    return <AuthForm onSuccess={handleAuthSuccess} />
-  }
+  if (!isAuthenticated) return <AuthForm onSuccess={handleAuthSuccess} />;
 
-  return <HomePage userName={user?.name} onLogout={handleLogout} />
+  return (
+    <>
+      {currentPage === "home" && (
+        <HomePage
+          userName={user?.name}
+          onLogout={handleLogout}
+          goToCard={goToCard}
+          goToProduct={goToProduct}
+          cardItems={cartItems}
+          setCardItems={setCardItems}
+        />
+      )}
+      {currentPage === "card" && (
+        <CardPage
+          goBack={goToHome}
+          cardItems={cartItems}
+          setCardItems={setCardItems}
+        />
+      )}
+      {currentPage === "product" && selectedProductId && (
+        <ProductDetailsPage
+          productId={selectedProductId}
+          goBack={goToHome}
+          onAddToCart={goToCard}
+        />
+      )}
+    </>
+  );
 }

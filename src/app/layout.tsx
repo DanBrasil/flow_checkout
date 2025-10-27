@@ -10,7 +10,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Test Colmeia - Sua loja online",
-  description: "Descubra os melhores produtos com qualidade garantida e preços competitivos",
+  description:
+    "Descubra os melhores produtos com qualidade garantida e preços competitivos",
 };
 
 export default function RootLayout({
@@ -21,9 +22,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

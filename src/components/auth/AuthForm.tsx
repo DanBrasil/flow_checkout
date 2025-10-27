@@ -1,87 +1,93 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import { useAuth } from '@/contexts/AuthContext'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Eye, EyeOff, Mail, Lock, User, Loader2 } from 'lucide-react'
+import React, { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Eye, EyeOff, Mail, Lock, User, Loader2 } from "lucide-react";
 
 interface AuthFormProps {
-  onSuccess?: () => void
+  onSuccess?: () => void;
 }
 
 export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
-  const { login, register } = useAuth()
-  const [isLogin, setIsLogin] = useState(true)
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
-  
+  const { login, register } = useAuth();
+  const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  })
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
-    setError('')
-  }
+      [name]: value,
+    }));
+    setError("");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError('')
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
     try {
       if (isLogin) {
-        const success = await login(formData.email, formData.password)
+        const success = await login(formData.email, formData.password);
         if (success) {
-          onSuccess?.()
+          onSuccess?.();
         } else {
-          setError('Email ou senha incorretos')
+          setError("Email ou senha incorretos");
         }
       } else {
         if (formData.password !== formData.confirmPassword) {
-          setError('As senhas não coincidem')
-          return
+          setError("As senhas não coincidem");
+          return;
         }
         if (formData.password.length < 6) {
-          setError('A senha deve ter pelo menos 6 caracteres')
-          return
+          setError("A senha deve ter pelo menos 6 caracteres");
+          return;
         }
-        
-        const success = await register(formData.name, formData.email)
+
+        const success = await register(formData.name, formData.email);
         if (success) {
-          onSuccess?.()
+          onSuccess?.();
         } else {
-          setError('Erro ao criar conta')
+          setError("Erro ao criar conta");
         }
       }
     } catch {
-      setError('Erro inesperado. Tente novamente.')
+      setError("Erro inesperado. Tente novamente.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const toggleMode = () => {
-    setIsLogin(!isLogin)
-    setError('')
+    setIsLogin(!isLogin);
+    setError("");
     setFormData({
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    })
-  }
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
@@ -89,20 +95,19 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
             <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-              <Mail className="w-6 h-6 text-white" />
+              <Mail className="w-6 h-6 text-black" />
             </div>
           </div>
           <CardTitle className="text-2xl font-bold text-center">
-            {isLogin ? 'Entrar' : 'Criar Conta'}
+            {isLogin ? "Entrar" : "Criar Conta"}
           </CardTitle>
           <CardDescription className="text-center">
-            {isLogin 
-              ? 'Entre com sua conta para continuar' 
-              : 'Crie sua conta para começar'
-            }
+            {isLogin
+              ? "Entre com sua conta para continuar"
+              : "Crie sua conta para começar"}
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
@@ -148,7 +153,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                 <Input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   placeholder="Sua senha"
                   value={formData.password}
                   onChange={handleInputChange}
@@ -173,7 +178,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                   <Input
                     id="confirmPassword"
                     name="confirmPassword"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Confirme sua senha"
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
@@ -190,18 +195,20 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
               </div>
             )}
 
-            <Button 
-              type="submit" 
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+            <Button
+              type="submit"
+              className="w-full cursor-pointer bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  {isLogin ? 'Entrando...' : 'Criando conta...'}
+                  {isLogin ? "Entrando..." : "Criando conta..."}
                 </>
+              ) : isLogin ? (
+                "Entrar"
               ) : (
-                isLogin ? 'Entrar' : 'Criar Conta'
+                "Criar Conta"
               )}
             </Button>
           </form>
@@ -212,7 +219,9 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">ou</span>
+                <span className="flex align-center px-2 bg-blue-500 text-black-500 rounded-md">
+                  ou
+                </span>
               </div>
             </div>
 
@@ -220,12 +229,11 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
               <button
                 type="button"
                 onClick={toggleMode}
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                className="text-sm text-blue-600 cursor-pointer hover:text-blue-700 font-medium"
               >
-                {isLogin 
-                  ? 'Não tem uma conta? Criar conta' 
-                  : 'Já tem uma conta? Entrar'
-                }
+                {isLogin
+                  ? "Não tem uma conta? Criar conta"
+                  : "Já tem uma conta? Entrar"}
               </button>
             </div>
           </div>
@@ -233,12 +241,13 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
           {isLogin && (
             <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
               <p className="text-xs text-blue-600 text-center">
-                <strong>Demo:</strong> Use admin@test.com / 123456 ou qualquer email válido
+                <strong>Demo:</strong> Use admin@test.com / 123456 ou qualquer
+                email válido
               </p>
             </div>
           )}
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};

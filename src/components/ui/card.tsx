@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from "react";
 
-import { mergeClassNames } from "@/lib/utils"
+import { mergeClassNames } from "@/lib/utils";
 
 const Card = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
@@ -12,8 +12,8 @@ const Card = ({ className, ...props }: React.ComponentProps<"div">) => {
       )}
       {...props}
     />
-  )
-}
+  );
+};
 
 const CardHeader = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
@@ -25,8 +25,8 @@ const CardHeader = ({ className, ...props }: React.ComponentProps<"div">) => {
       )}
       {...props}
     />
-  )
-}
+  );
+};
 
 const CardTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
@@ -35,18 +35,21 @@ const CardTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
       className={mergeClassNames("leading-none font-semibold", className)}
       {...props}
     />
-  )
-}
+  );
+};
 
-const CardDescription = ({ className, ...props }: React.ComponentProps<"div">) => {
+const CardDescription = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
   return (
     <div
       data-slot="card-description"
       className={mergeClassNames("text-muted-foreground text-sm", className)}
       {...props}
     />
-  )
-}
+  );
+};
 
 const CardAction = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
@@ -58,8 +61,8 @@ const CardAction = ({ className, ...props }: React.ComponentProps<"div">) => {
       )}
       {...props}
     />
-  )
-}
+  );
+};
 
 const CardContent = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
@@ -68,18 +71,21 @@ const CardContent = ({ className, ...props }: React.ComponentProps<"div">) => {
       className={mergeClassNames("px-6", className)}
       {...props}
     />
-  )
-}
+  );
+};
 
 const CardFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
       data-slot="card-footer"
-      className={mergeClassNames("flex items-center px-6 [.border-t]:pt-6", className)}
+      className={mergeClassNames(
+        "flex items-center px-6 [.border-t]:pt-6",
+        className
+      )}
       {...props}
     />
-  )
-}
+  );
+};
 
 export {
   Card,
@@ -89,4 +95,4 @@ export {
   CardAction,
   CardDescription,
   CardContent,
-}
+};
